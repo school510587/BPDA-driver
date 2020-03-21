@@ -1,0 +1,39 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the seikamini package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: seikamini 3.2.2019.1.1\n"
+"Report-Msgid-Bugs-To: nvda-translations@freelists.org\n"
+"POT-Creation-Date: 2019-04-23 16:34+0200\n"
+"PO-Revision-Date: 2019-04-23 16:34+0200\n"
+"Last-Translator: Julien Cochuyt <j.cochuyt@accessolutions.fr>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+
+#. Translators: The name of a series of braille displays.
+#: addon\brailleDisplayDrivers\seikamini.py:93
+msgid "Seika notetakers (Mini16, Mini24, V6 and V7)"
+msgstr "Seika bloc-notes (Mini16, Mini24, V6 et V7)"
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on to be shown on installation and add-on information.
+#: buildVars.py:17
+msgid "Seika notetakers driver for Mini16, Mini24, V6 & V7"
+msgstr "Seika - Pilote pour bloc-notes Mini16, Mini24, V6 et V7"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:20
+msgid ""
+"Repackaging by Accessolutions of the driver\n"
+"provided by the manufacturer as an NVDA add-on."
+msgstr ""
+"Repackaging sous forme d'extension NVDA par Accessolutions\n"
+"du pilote fourni par le fabricant."
