@@ -14,6 +14,7 @@
 #  - Repackaging as an NVDA add-on.
 #  - Amend driver description to mention newer models
 
+from collections import OrderedDict
 from ctypes import *
 import os
 import sys
@@ -49,24 +50,24 @@ DOT_7 = 0x40
 DOT_8 = 0x80
 
 
-_keyNames = {
-0x000001 : "BACKSPACE",
-0x000002 : "SPACE",
-0x000004 : "LB",
-0x000008 : "RB",
-0x000010 : "LJ_CENTER", 
-0x000020 : "LJ_LEFT", 
-0x000040 : "LJ_RIGHT", 
-0x000080 : "LJ_UP",
-0x000100 : "LJ_DOWN",
-0x000200 : "RJ_CENTER", 
-0x000400 : "RJ_LEFT", 
-0x000800 : "RJ_RIGHT", 
-0x001000 : "RJ_UP", 
-0x002000 : "RJ_DOWN"
-}
+_keyNames = OrderedDict([
+	(0x000001, "BACKSPACE"),
+	(0x000002, "SPACE"),
+	(0x000004, "LB"),
+	(0x000008, "RB"),
+	(0x000010, "LJ_CENTER"),
+	(0x000020, "LJ_LEFT"),
+	(0x000040, "LJ_RIGHT"),
+	(0x000080, "LJ_UP"),
+	(0x000100, "LJ_DOWN"),
+	(0x000200, "RJ_CENTER"),
+	(0x000400, "RJ_LEFT"),
+	(0x000800, "RJ_RIGHT"),
+	(0x001000, "RJ_UP"),
+	(0x002000, "RJ_DOWN"),
+])
 
-_dotNames = {}
+_dotNames = OrderedDict()
 for i in xrange(1, 9):
 	key = globals()["DOT_%d" % i]
 	_dotNames[key] = "d%d" % i
@@ -247,17 +248,17 @@ class InputGesture(braille.BrailleDisplayGesture, brailleInput.BrailleInputGestu
 	def __init__(self, keys, dots, routing):
 		super(braille.BrailleDisplayGesture, self).__init__()
 		# see what thumb keys are pressed:
-		names = set()
+		names = []
 		if routing:
 			self.routingIndex = routing - 1
-			names.add("routing")
+			names.append("routing")
 		else:
 			if keys in (0x0, 0x1, 0x2):
 				self.dots = dots
 				# when BACKSPACE and/or SPACE is pressed, the gesture may be dots + space
 				if keys:
 					self.space = True
-			names.update(_keyNames[k] for k in _keyNames if (k & keys))
-			names.update(_dotNames[k] for k in _dotNames if (k & dots))
+			names.extend(_keyNames[k] for k in _keyNames if (k & keys))
+			names.extend(_dotNames[k] for k in _dotNames if (k & dots))
 		self.id = "+".join(names)
 		log.debug("Keys {0}".format(self.id))
