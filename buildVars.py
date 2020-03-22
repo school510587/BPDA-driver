@@ -19,9 +19,9 @@ addon_info = {
     # Translators: Long description to be shown for this add-on on add-on information from add-ons manager
     "addon_description" : _("""Repackaging by Accessolutions of the driver\nprovided by the manufacturer as an NVDA add-on."""),
     # Version
-    "addon_version" : "3.2.2019.1.1",
+    "addon_version" : "3.3.2019.3.1",
     # Author(s)
-    "addon_author" : u"Accessolutions <contact@accessolutions.fr>, Tsinghua Univ., Ulf Beckmann <beckmann@flusoft.de>",
+    "addon_author" : u"Accessolutions <contact@accessolutions.fr>, Tsinghua Univ., Ulf Beckmann <beckmann@flusoft.de>, Bo-Cheng Jhan <school510587@yahoo.com.tw>",
     # URL for the add-on documentation support
     "addon_url" : "http://www.nippontelesoft.com/english.html",
     # Documentation file name
