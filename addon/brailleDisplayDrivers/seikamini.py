@@ -16,7 +16,6 @@
 
 from ctypes import *
 import os
-import time
 import wx
 
 import addonHandler
@@ -25,7 +24,6 @@ import brailleInput
 import inputCore
 import hwPortUtils
 from logHandler import log
-import winUser 
 
 
 addonHandler.initTranslation()
