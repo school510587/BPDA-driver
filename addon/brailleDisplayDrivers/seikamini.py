@@ -190,41 +190,18 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 		pint = c_int * 1
 		nKey = pint(0)
 		nRou = pint(0)
-		Key = 0
-		Brl = 0
-		Rou = 0
-		Btn = 0
-		keys= set()
 		if seikaDll.GetBrailleKey(nKey, nRou):
 			Rou = nRou[0]
-			Btn = (nKey[0] & 0xff) << 16
+			Btn = (nKey[0] & 0xff) << 16 # unused, because Mini Seika has no Btn ....
 			Brl = (nKey[0] >> 8) & 0xff
 			Key = (nKey[0] >> 16) & 0xffff
-			space = (nKey[0] >> 16) & 0x2
-#			log.info("Seika Brl {brl} Key {c} Buttons {b} Route {r}".format(brl=Brl, c=Key, b=Btn, r=Rou))
-			if not (Rou or Key or Btn or Brl):
-				pass
-			if Rou: # Routing key is pressed
-
-				gesture = InputGesture(routing=Rou-1)
+			log.debug("Seika Brl {brl} Key {c} Buttons {b} Route {r}".format(brl=Brl, c=Key, b=Btn, r=Rou))
+			if Key or Brl or Rou:
+				gesture = InputGesture(Key, Brl, Rou)
 				try:
 					inputCore.manager.executeGesture(gesture)
 				except inputCore.NoInputGestureAction:
-					log.debug("No Action for routing command")
-					pass
-			if Key: # Mini Seika has no Btn ....
-				gesture = InputGesture(keys=Key)
-			if Btn: # Mini Seika has no Btn ....
-       				gesture = InputGesture(keys=Btn)
-			if Brl: # or how to handle Brailleinput?
-				gesture = InputGesture(dots=Brl)
-			if Key or Btn or Brl:
-				try:
-					inputCore.manager.executeGesture(gesture)
-				except inputCore.NoInputGestureAction:
-					log.debug("No Action for keys ")
-					pass
-
+					log.debug("No action for keys {0}".format(gesture.id), exc_info=True)
 
 
 	gestureMap = inputCore.GlobalGestureMap({
@@ -253,15 +230,13 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 			"kb:shift+leftArrow": ("br(seikamini):BACKSPACE+RJ_LEFT",),
 			"kb:shift+rightArrow": ("br(seikamini):BACKSPACE+RJ_RIGHT",),
 			"kb:windows": ("br(seikamini):BACKSPACE+RJ_CENTER",),
-			"kb:space": ("br(seikamini):BACKSPACE", "br(seikamini):SPACE",),
-			"kb:backspace": ("br(seikamini):d7",),
 			"kb:pageup": ("br(seikamini):SPACE+LJ_RIGHT",),
 			"kb:pagedown": ("br(seikamini):SPACE+LJ_LEFT",),
 			"kb:home": ("br(seikamini):SPACE+LJ_UP",),
 			"kb:end": ("br(seikamini):SPACE+LJ_DOWN",),
 			"kb:control+home": ("br(seikamini):BACKSPACE+LJ_UP",),
 			"kb:control+end": ("br(seikamini):BACKSPACE+LJ_DOWN",),
-			"kb:enter": ("br(seikamini):RJ_CENTER", "br(seikamini):d8"),
+			"kb:enter": ("br(seikamini):RJ_CENTER",),
 		},
 	})
 
@@ -269,23 +244,20 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 class InputGesture(braille.BrailleDisplayGesture, brailleInput.BrailleInputGesture):
 	source = BrailleDisplayDriver.name
 
-	def __init__(self, keys=None, dots=None, space=False, routing=None):
+	def __init__(self, keys, dots, routing):
 		super(braille.BrailleDisplayGesture, self).__init__()
 		# see what thumb keys are pressed:
 		names = set()
-		if keys is not None:
-			names.update(_keyNames[1 << i] for i in xrange(22)
-					if (1 << i) & keys)
-		elif dots is not None:
-		# now the dots
-			self.dots = dots
-			if space:
-				self.space = space
-				names.add(_keyNames[0])
-			names.update(_dotNames[1 << i] for i in xrange(8)
-					if (1 << i) & dots)
-		elif routing is not None:
-			self.routingIndex = routing
-			names.add('routing')
+		if routing:
+			self.routingIndex = routing - 1
+			names.add("routing")
+		else:
+			if keys in (0x0, 0x1, 0x2):
+				self.dots = dots
+				# when BACKSPACE and/or SPACE is pressed, the gesture may be dots + space
+				if keys:
+					self.space = True
+			names.update(_keyNames[k] for k in _keyNames if (k & keys))
+			names.update(_dotNames[k] for k in _dotNames if (k & dots))
 		self.id = "+".join(names)
-#		log.info("keys {keys}".format(keys=names))
+		log.debug("Keys {0}".format(self.id))
