@@ -152,7 +152,7 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 					pN = port.split("COM")[1]
 				except IndexError:
 					pN = "0"
-	        		portNum = int(pN)
+				portNum = int(pN)
 				log.info("seikamini test {c}, {b}".format(c=port, b=bName))
 		
 				if seikaDll.BrailleOpen(0,portNum):
