@@ -252,15 +252,18 @@ class InputGesture(braille.BrailleDisplayGesture, brailleInput.BrailleInputGestu
 		# see what thumb keys are pressed:
 		names = []
 		if routing:
-			self.routingIndex = routing - 1
-			names.append("routing")
+			if keys == dots == 0: # Pure routing gesture
+				self.routingIndex = routing - 1
+				names.append("routing")
+			else:
+				names.append("r%d" % routing)
 		else:
 			if keys in (0x0, 0x1, 0x2):
 				self.dots = dots
 				# when BACKSPACE and/or SPACE is pressed, the gesture may be dots + space
 				if keys:
 					self.space = True
-			names.extend(_keyNames[k] for k in _keyNames if (k & keys))
-			names.extend(_dotNames[k] for k in _dotNames if (k & dots))
+		names.extend(_keyNames[k] for k in _keyNames if (k & keys))
+		names.extend(_dotNames[k] for k in _dotNames if (k & dots))
 		self.id = "+".join(names)
 		log.debug("Keys {0}".format(self.id))
