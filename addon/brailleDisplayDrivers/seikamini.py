@@ -67,7 +67,7 @@ _keyNames = {
 }
 
 _dotNames = {}
-for i in xrange(1,9):
+for i in xrange(1, 9):
 	key = globals()["DOT_%d" % i]
 	_dotNames[key] = "d%d" % i
 
@@ -119,24 +119,24 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 
 		# seikaDll.BrailleOpen.errcheck=self.seika_errcheck
 		seikaDll.BrailleOpen.restype=c_int
-		seikaDll.BrailleOpen.argtype=(c_int,c_int)
+		seikaDll.BrailleOpen.argtype=(c_int, c_int)
 
 		# seikaDll.GetBrailleDisplayInfo.errcheck=self.seika_errcheck
 		seikaDll.GetBrailleDisplayInfo.restype=c_int
-		seikaDll.GetBrailleDisplayInfo.argtype=(c_void_p,c_void_p)
+		seikaDll.GetBrailleDisplayInfo.argtype=(c_void_p, c_void_p)
 
 		# seikaDll.UpdateBrailleDisplay.errcheck=self.seika_errcheck
 		seikaDll.UpdateBrailleDisplay.restype=c_int
-		seikaDll.UpdateBrailleDisplay.argtype=(c_char_p,c_int)
+		seikaDll.UpdateBrailleDisplay.argtype=(c_char_p, c_int)
 
 		# seikaDll.GetBrailleKey.errcheck=self.seika_errcheck
 		seikaDll.GetBrailleKey.restype=c_int
-		seikaDll.GetBrailleKey.argtype=(c_void_p,c_void_p)
+		seikaDll.GetBrailleKey.argtype=(c_void_p, c_void_p)
 
 		seikaDll.BrailleClose.restype=c_int
 
-		if seikaDll.BrailleOpen(2,0): # test USB
-			seikaDll.GetBrailleDisplayInfo(nCells,nBut)
+		if seikaDll.BrailleOpen(2, 0): # test USB
+			seikaDll.GetBrailleDisplayInfo(nCells, nBut)
 			log.info("seikamini an USB-HID, Cells {c} Buttons {b}".format(c=nCells[0], b=nBut[0]))
 			self.numCells=nCells[0]
 			# self.numBtns=nBut[0]
@@ -161,9 +161,9 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 				portNum = int(pN)
 				log.info("seikamini test {c}, {b}".format(c=port, b=bName))
 		
-				if seikaDll.BrailleOpen(0,portNum):
-					seikaDll.GetBrailleDisplayInfo(nCells,nBut)
-					log.info("seikamini via Bluetooth {p} Cells {c} Buttons {b}".format(p=port,c=nCells[0], b=nBut[0]))
+				if seikaDll.BrailleOpen(0, portNum):
+					seikaDll.GetBrailleDisplayInfo(nCells, nBut)
+					log.info("seikamini via Bluetooth {p} Cells {c} Buttons {b}".format(p=port, c=nCells[0], b=nBut[0]))
 					self.numCells=nCells[0]
 					# self.numBtns=nBut[0]
 					break
@@ -184,7 +184,7 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 		# every transmitted line consists of the preamble SEIKA_SENDHEADER and the Cells
 		line = to_bytes(cells)
 		line += b'\0' * (self.numCells - len(line))
-		seikaDll.UpdateBrailleDisplay(line,self.numCells)
+		seikaDll.UpdateBrailleDisplay(line, self.numCells)
 
 	def handleResponses(self):
 		pint = c_int * 1
@@ -195,7 +195,7 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 		Rou = 0
 		Btn = 0
 		keys= set()
-		if seikaDll.GetBrailleKey(nKey,nRou):
+		if seikaDll.GetBrailleKey(nKey, nRou):
 			Rou = nRou[0]
 			Btn = (nKey[0] & 0xff) << 16
 			Brl = (nKey[0] >> 8) & 0xff
@@ -253,7 +253,7 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 			"kb:shift+leftArrow": ("br(seikamini):BACKSPACE+RJ_LEFT",),
 			"kb:shift+rightArrow": ("br(seikamini):BACKSPACE+RJ_RIGHT",),
 			"kb:windows": ("br(seikamini):BACKSPACE+RJ_CENTER",),
-			"kb:space": ("br(seikamini):BACKSPACE","br(seikamini):SPACE",),
+			"kb:space": ("br(seikamini):BACKSPACE", "br(seikamini):SPACE",),
 			"kb:backspace": ("br(seikamini):d7",),
 			"kb:pageup": ("br(seikamini):SPACE+LJ_RIGHT",),
 			"kb:pagedown": ("br(seikamini):SPACE+LJ_LEFT",),
@@ -261,7 +261,7 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 			"kb:end": ("br(seikamini):SPACE+LJ_DOWN",),
 			"kb:control+home": ("br(seikamini):BACKSPACE+LJ_UP",),
 			"kb:control+end": ("br(seikamini):BACKSPACE+LJ_DOWN",),
-			"kb:enter": ("br(seikamini):RJ_CENTER","br(seikamini):d8"),
+			"kb:enter": ("br(seikamini):RJ_CENTER", "br(seikamini):d8"),
 		},
 	})
 
