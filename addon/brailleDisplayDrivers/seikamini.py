@@ -31,8 +31,9 @@ addonHandler.initTranslation()
 
 
 if sys.version_info[0] < 3:
-	pass
+	to_bytes = lambda cells: "".join(chr(cell) for cell in cells)
 else: # Python 3, NVDA 2019.3 or later
+	to_bytes = lambda cells: bytes(cells)
 	xrange = range
 
 
@@ -181,9 +182,8 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 
 	def display(self, cells):
 		# every transmitted line consists of the preamble SEIKA_SENDHEADER and the Cells
-		line = "".join(chr(cell) for cell in cells)
-		expectedLength = self.numCells
-		line += chr(0) * (expectedLength - len(line))
+		line = to_bytes(cells)
+		line += b'\0' * (self.numCells - len(line))
 		seikaDll.UpdateBrailleDisplay(line,self.numCells)
 
 	def handleResponses(self):
