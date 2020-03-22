@@ -92,8 +92,10 @@ try:
 	seikaDll=cdll.LoadLibrary(DLLNAME)
 except:
 	seikaDll=None
-	log.info("LoadLibrary failed " + DLLNAME)
-os.chdir(WORK_PATH)
+	log.error("LoadLibrary failed " + DLLNAME)
+	raise
+finally:
+	os.chdir(WORK_PATH)
 
 class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 	name = "seikamini"
