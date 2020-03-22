@@ -16,6 +16,7 @@
 
 from ctypes import *
 import os
+import sys
 import wx
 
 import addonHandler
@@ -27,6 +28,12 @@ from logHandler import log
 
 
 addonHandler.initTranslation()
+
+
+if sys.version_info[0] < 3:
+	pass
+else: # Python 3, NVDA 2019.3 or later
+	xrange = range
 
 
 READ_INTERVAL = 50
