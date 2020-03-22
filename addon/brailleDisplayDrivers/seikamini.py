@@ -266,14 +266,6 @@ class BrailleDisplayDriver(braille.BrailleDisplayDriver):
 	})
 
 
-class InputGestureRouting(braille.BrailleDisplayGesture):
-
-	source = BrailleDisplayDriver.name
-	def __init__(self, index):
-		super(InputGestureRouting, self).__init__()
-		self.id = "routing"
-		self.routingIndex = index
-
 class InputGesture(braille.BrailleDisplayGesture, brailleInput.BrailleInputGesture):
 	source = BrailleDisplayDriver.name
 
