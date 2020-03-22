@@ -23,7 +23,7 @@ addon_info = {
     # Author(s)
     "addon_author" : u"Accessolutions <contact@accessolutions.fr>, Tsinghua Univ., Ulf Beckmann <beckmann@flusoft.de>",
     # URL for the add-on documentation support
-    "addon_url" : None,
+    "addon_url" : "http://www.nippontelesoft.com/english.html",
     # Documentation file name
     "addon_docFileName" : "readme.html",
     # Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
