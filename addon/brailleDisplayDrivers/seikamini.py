@@ -2,7 +2,7 @@
 #This file is covered by the GNU General Public License.
 #See the file COPYING for more details.
 #Copyright (C) 2012/15 Ulf Beckmann <beckmann@flusoft.de>
-#Copyright (C) 2020 Bo-Cheng Jhan <school510587@yahoo.com.tw>
+#Copyright (C) 2020-2021 Bo-Cheng Jhan <school510587@yahoo.com.tw>
 
 
 # This file represents the braille display driver for
