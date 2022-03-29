@@ -19,7 +19,7 @@ addon_info = {
     # Translators: Long description to be shown for this add-on on add-on information from add-ons manager
     "addon_description" : _("""Repackaging by Accessolutions of the driver\nprovided by the manufacturer as an NVDA add-on."""),
     # Version
-    "addon_version" : "3.3.2020.3",
+    "addon_version" : "3.3.2021.3",
     # Author(s)
     "addon_author" : u"Accessolutions <contact@accessolutions.fr>, Tsinghua Univ., Ulf Beckmann <beckmann@flusoft.de>, Bo-Cheng Jhan <school510587@yahoo.com.tw>",
     # URL for the add-on documentation support
@@ -29,7 +29,7 @@ addon_info = {
     # Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
     "addon_minimumNVDAVersion" : "2017.3",
     # Last NVDA version supported/tested (e.g. "2018.4.0", ideally more recent than minimum version)
-    "addon_lastTestedNVDAVersion" : "2020.3",
+    "addon_lastTestedNVDAVersion" : "2021.3",
     # Add-on update channel (default is stable or None)
     "addon_updateChannel" : None,
 }
